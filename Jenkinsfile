@@ -3,8 +3,8 @@ podTemplate(
     inheritFrom: 'default',
     containers: [
         containerTemplate(
-            name: 'maven', 
-            image: 'maven',
+            name: 'golang', 
+            image: 'golang',
             ttyEnabled: true,
             command: 'cat'
         )
@@ -12,8 +12,8 @@ podTemplate(
 ) {
     node('mypod') {
         stage ('Build') {
-            container ('maven') {
-                sh 'mvn -version'
+            container ('golang') {
+                sh 'CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o hello .'
             }
         }
     }
