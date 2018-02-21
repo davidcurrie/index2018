@@ -16,7 +16,7 @@ podTemplate(
         }
         stage ('Build') {
             container ('maven') {
-                mvn version
+                sh mvn version
             }
         }
     }
