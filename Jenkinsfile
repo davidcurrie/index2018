@@ -4,7 +4,7 @@ podTemplate(
     containers: [
         containerTemplate(
             name: 'maven', 
-            image: maven,
+            image: 'maven',
             ttyEnabled: true,
             command: 'cat'
         )
