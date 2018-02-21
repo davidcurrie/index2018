@@ -11,12 +11,9 @@ podTemplate(
     ]
 ) {
     node('mypod') {
-        stage ('Extract') {
-            checkout scm 
-        }
         stage ('Build') {
             container ('maven') {
-                sh mvn version
+                sh 'mvn -version'
             }
         }
     }
