@@ -5,6 +5,7 @@
 ```bash
 brew cask install minikube
 minikube start
+minikube addons enable registry
 brew install kubectl
 brew install kubernetes-helm
 ```

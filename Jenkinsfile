@@ -35,7 +35,9 @@ podTemplate(
         }
         stage ('Docker') {
             container ('docker') {
-                sh "docker build -t hello:${commitId} ."
+                def image = "registry.kube-system:80/hello:${commitId}"
+                sh "docker build -t ${image} ."
+                sh "docker push ${image}"
             }
         }
     }
