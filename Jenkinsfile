@@ -37,10 +37,10 @@ podTemplate(
             container ('docker') {
                 sh """
                     registryIp=$(getent hosts registry.kube-system | awk '{ print $1 ; exit }')
-                    image="${registryIp}:80/hello:${commitId}"
-                    docker build -t ${image} .
-                    docker push ${image}
-                """"
+                    image="\${registryIp}:80/hello:${commitId}"
+                    docker build -t \${image} .
+                    docker push \${image}
+                """
             }
         }
     }
