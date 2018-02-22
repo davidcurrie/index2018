@@ -1,4 +1,5 @@
 Master:
+  HostName: hello.192.168.99.100.nip.io
   ImageTag: lts-alpine
   InstallPlugins:
     - kubernetes:1.2
