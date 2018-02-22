@@ -5,3 +5,4 @@ Master:
     - workflow-job:2.17
     - credentials-binding:1.15
     - git:3.7.0
+  JavaOpts: "-Dhudson.slaves.NodeProvisioner.initialDelay=0 -Dhudson.slaves.NodeProvisioner.MARGIN=50 -Dhudson.slaves.NodeProvisioner.MARGIN0=0.85"
