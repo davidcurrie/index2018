@@ -13,6 +13,12 @@ podTemplate(
             image: 'docker:18.02',
             ttyEnabled: true,
             command: 'cat'
+        ),
+        containerTemplate(
+            name: 'helm', 
+            image: 'ibmcom/k8s-helm:v2.6.0',
+            ttyEnabled: true,
+            command: 'cat'
         )
     ],
     volumes: [
@@ -33,12 +39,19 @@ podTemplate(
                 sh 'CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o hello .'
             }
         }
+        def repository
         stage ('Docker') {
             container ('docker') {
                 def registryIp = sh(script: 'getent hosts registry.kube-system | awk \'{ print $1 ; exit }\'', returnStdout: true).trim()
-                def image = "${registryIp}:80/hello:${commitId}"
-                sh "docker build -t ${image} ."
-                sh "docker push ${image}"
+                repository = "${registryIp}:80/hello"
+                sh "docker build -t ${image}:${commitId} ."
+                sh "docker push ${image}:${commitId}"
+            }
+        }
+        stage ('Deploy') {
+            container ('helm') {
+                sh "/helm init --client-only --skip-refresh"
+                sh "/helm upgrade --install --wait --set image.repository=${repository},image.tag=${commitId} hello hello"
             }
         }
     }
