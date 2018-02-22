@@ -35,12 +35,10 @@ podTemplate(
         }
         stage ('Docker') {
             container ('docker') {
-                sh """
-                    registryIp=$(getent hosts registry.kube-system | awk '{ print $1 ; exit }')
-                    image="\${registryIp}:80/hello:${commitId}"
-                    docker build -t \${image} .
-                    docker push \${image}
-                """
+                def registryIp = sh(script: 'getent hosts registry.kube-system | awk \'{ print $1 ; exit }\')', returnStdout: true).trim()
+                def image = "${registryIp}:80/hello:${commitId}"
+                sh "docker build -t ${image} ."
+                sh "docker push ${image}"
             }
         }
     }
