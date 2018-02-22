@@ -13,13 +13,13 @@ podTemplate(
             image: 'docker:18.02',
             ttyEnabled: true,
             command: 'cat'
-        ),
+        )/*,
         containerTemplate(
             name: 'helm', 
             image: 'ibmcom/k8s-helm:v2.6.0',
             ttyEnabled: true,
             command: 'cat'
-        )
+        )*/
     ],
     volumes: [
         hostPathVolume(
@@ -36,7 +36,7 @@ podTemplate(
         }
         stage ('Build') {
             container ('golang') {
-                sh 'CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o hello .'
+                sh 'CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o main .'
             }
         }
         def repository
@@ -47,12 +47,12 @@ podTemplate(
                 sh "docker build -t ${repository}:${commitId} ."
                 sh "docker push ${repository}:${commitId}"
             }
-        }
+        }/*
         stage ('Deploy') {
             container ('helm') {
                 sh "/helm init --client-only --skip-refresh"
-                sh "/helm upgrade --install --wait --set image.repository=${repository},image.tag=${commitId} hello chart"
+                sh "/helm upgrade --install --wait --set image.repository=${repository},image.tag=${commitId} hello hello"
             }
-        }
+        }*/
     }
 }
