@@ -16,8 +16,7 @@ brew install kubernetes-helm
 ## Set up Helm
 
 ```bash
-helm init
-kubectl rollout status deployment -n kube-system tiller-deploy
+helm init --wait
 ```
 
 ## Deploy Jenkins
